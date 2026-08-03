@@ -12,11 +12,6 @@ Plataforma web integral para la gestión y control de asistencia académica univ
 - **Almacenamiento:** Supabase Storage (PDFs, justificativos)
 - **Despliegue:** Heroku (backend), Vercel (frontend)
 
-## Demostración Visual
-
-![Panel Principal](generated/assets/ung-logo.png)
-
-> *Panel de control con gráficos de asistencia, alertas de riesgo y métricas en tiempo real.*
 
 ## Características Clave
 
