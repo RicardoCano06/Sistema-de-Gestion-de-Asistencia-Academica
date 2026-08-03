@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+    <defs>
+        <linearGradient id="bgMain" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#19105f"/>
+            <stop offset="45%" stop-color="#112673"/>
+            <stop offset="100%" stop-color="#0a4b93"/>
+        </linearGradient>
+        <linearGradient id="shapeCyan" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#20d3ff" stop-opacity="0.62"/>
+            <stop offset="100%" stop-color="#1ea2ff" stop-opacity="0.22"/>
+        </linearGradient>
+        <linearGradient id="lineBlue" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#26dcff" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#2f7cff" stop-opacity="0.85"/>
+        </linearGradient>
+        <pattern id="diagPattern" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <line x1="0" y1="0" x2="0" y2="18" stroke="#8ec8ff" stroke-opacity="0.28" stroke-width="2"/>
+        </pattern>
+        <filter id="blurSoft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="8"/>
+        </filter>
+    </defs>
+
+    <rect width="1920" height="1080" fill="url(#bgMain)"/>
+
+    <path d="M0 710 C180 620 290 690 430 630 C670 525 845 695 1080 620 C1255 564 1420 592 1620 512 C1745 462 1860 490 1920 530 L1920 1080 L0 1080 Z" fill="#24106f" fill-opacity="0.62"/>
+    <path d="M460 0 C410 165 550 245 760 255 C960 265 1080 350 1070 535 C1060 730 920 775 860 940 C835 1010 860 1060 890 1080 L1210 1080 C1160 990 1220 895 1300 820 C1410 715 1440 560 1410 430 C1375 285 1450 160 1560 0 Z" fill="#141060" fill-opacity="0.72"/>
+    <path d="M320 1080 C360 965 460 890 600 860 C780 820 910 860 1030 1080 Z" fill="url(#shapeCyan)"/>
+
+    <path d="M760 -20 C725 70 770 125 900 140 C1085 160 1210 195 1280 285 C1355 382 1330 500 1300 590 C1260 705 1285 820 1378 895 C1450 955 1540 965 1600 950" stroke="url(#lineBlue)" stroke-width="6" fill="none"/>
+    <path d="M140 900 C320 780 520 790 700 920 C860 1035 965 1110 1170 1100" stroke="#1366ff" stroke-opacity="0.7" stroke-width="5" fill="none"/>
+
+    <circle cx="1540" cy="360" r="140" fill="url(#diagPattern)"/>
+    <circle cx="1160" cy="780" r="170" fill="url(#diagPattern)"/>
+    <circle cx="420" cy="980" r="150" fill="url(#diagPattern)"/>
+    <rect x="120" y="120" width="220" height="110" rx="8" fill="url(#diagPattern)" opacity="0.45"/>
+
+    <g filter="url(#blurSoft)">
+        <circle cx="720" cy="230" r="22" fill="#56b8ff" fill-opacity="0.3"/>
+        <circle cx="920" cy="580" r="18" fill="#5cbcff" fill-opacity="0.28"/>
+        <circle cx="1680" cy="700" r="26" fill="#67caff" fill-opacity="0.24"/>
+        <circle cx="1760" cy="980" r="20" fill="#5ec1ff" fill-opacity="0.26"/>
+    </g>
+
+    <path d="M180 280 C210 240 250 320 290 280 C320 250 360 330 390 280" stroke="#21dcff" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M1700 520 C1665 565 1730 610 1695 655 C1660 700 1730 745 1695 790" stroke="#23d9ff" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M1110 1010 C1140 970 1180 1050 1220 1010 C1250 980 1290 1060 1320 1010" stroke="#1fd6ff" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+    <circle cx="230" cy="950" r="7" fill="#20e8d8"/>
+    <circle cx="230" cy="990" r="7" fill="#20e8d8"/>
+    <circle cx="230" cy="1030" r="7" fill="#20e8d8"/>
+    <circle cx="1760" cy="1035" r="7" fill="#20e8d8"/>
+    <circle cx="1790" cy="1035" r="7" fill="#20e8d8"/>
+    <circle cx="1820" cy="1035" r="7" fill="#20e8d8"/>
+</svg>

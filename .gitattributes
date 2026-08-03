@@ -1,0 +1,13 @@
+# Normalizar finales de línea
+* text=auto
+
+# No convertir finales de línea en archivos generados (dist/)
+dist/** text=auto
+dist/** binary
+
+# Fuente TypeScript: LF en repo, CRLF en checkout Windows
+*.ts text eol=crlf
+*.tsx text eol=crlf
+*.css text eol=crlf
+*.json text eol=crlf
+*.js text eol=crlf

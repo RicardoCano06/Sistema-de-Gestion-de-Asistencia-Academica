@@ -1,0 +1,2872 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── shadcn/ui CSS variables (dark-first, mapea a la paleta del sistema) ── */
+@layer base {
+  :root {
+    --background: 210 25% 97%;
+    --foreground: 210 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 20% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 20% 10%;
+    --muted: 210 15% 93%;
+    --muted-foreground: 210 10% 45%;
+    --accent: 210 15% 93%;
+    --accent-foreground: 210 20% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 201 94% 50%;
+    --radius: 0.5rem;
+    /** Inset inferior dinámico (visualViewport + safe-area); ver useVisualViewportBottomInset. */
+    --vv-bottom-inset: 0px;
+    --app-mobile-nav-inset: min(
+      3.5rem,
+      max(env(safe-area-inset-bottom, 0px), var(--vv-bottom-inset, 0px))
+    );
+    --app-mobile-bottom-inset: var(--app-mobile-nav-inset);
+    --app-mobile-bottom-padding: 0.75rem;
+  }
+
+  .dark {
+    /* Paleta azul nocturna ultra-descanso */
+    --background: 223 49% 8%;
+    --foreground: 212 36% 95%;
+    --card: 222 34% 14%;
+    background-color: #0d1f3c;
+    --popover-foreground: 212 36% 95%;
+    --muted: 221 28% 13%;
+    --muted-foreground: 214 26% 72%;
+    --accent-foreground: 212 36% 95%;
+    --destructive: 351 53% 59%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 24% 24%;
+    --input: 220 24% 24%;
+    --ring: 214 52% 57%;
+  }
+}
+
+@layer components {
+  .btn-modern {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-transparent px-4 py-2 text-sm font-semibold tracking-[0.01em] transition-[transform,box-shadow] duration-150 ease-out;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/[0.45] focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+    @apply dark:focus-visible:ring-[#4a6fa5]/50 dark:focus-visible:ring-offset-[#0d1f3c];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none;
+    @apply hover:-translate-y-[0.5px] active:translate-y-0;
+  }
+
+  .btn-modern-sm {
+    @apply rounded-lg px-3 py-2;
+  }
+
+  .btn-modern-xs {
+    @apply rounded-lg px-2.5 py-1 text-xs;
+  }
+
+  .btn-modern-primary {
+    @apply border-[rgba(55,124,215,0.9)] bg-[rgba(55,124,215,0.9)] text-white shadow-sm;
+    @apply hover:border-[rgba(45,110,195,0.95)] hover:bg-[rgba(45,110,195,0.95)] active:bg-[rgba(40,100,185,1)];
+    @apply dark:border-[#2d6bb8] dark:bg-[rgba(55,124,215,0.9)] dark:hover:border-[#2a65ad] dark:hover:bg-[#2d6bb8];
+    @apply dark:shadow-[0_4px_12px_rgba(55,124,215,0.28)];
+  }
+
+  .btn-modern-ghost {
+    @apply border-slate-300 bg-white text-slate-700 shadow-sm;
+    @apply hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900;
+    @apply dark:border-slate-600 dark:bg-[#0b2147] dark:text-[#e7eef9];
+    @apply dark:hover:border-slate-500 dark:hover:bg-[#091c3d];
+  }
+
+  /** Editar (ámbar, legible en tarjetas claras y oscuras). */
+  .btn-modern-edit {
+    @apply border-amber-300 bg-amber-50 text-amber-900 shadow-sm;
+    @apply hover:border-amber-400 hover:bg-amber-100 hover:text-amber-950;
+    @apply dark:border-amber-500/40 dark:bg-amber-950/[0.35] dark:text-amber-100;
+    @apply dark:hover:border-amber-400/[0.55] dark:hover:bg-amber-900/[0.45];
+  }
+
+  .btn-modern-warning {
+    @apply border-amber-600 bg-amber-600 text-white shadow-sm hover:bg-amber-700 hover:border-amber-700;
+    @apply dark:border-amber-600/70 dark:bg-amber-700 dark:hover:bg-amber-600;
+  }
+
+  .btn-modern-danger {
+    @apply border-rose-400/70 bg-rose-500/[0.88] text-white shadow-sm;
+    @apply hover:border-rose-500/80 hover:bg-rose-600/[0.92] active:bg-rose-700/95;
+    @apply dark:border-[rgb(101,36,36)] dark:bg-[rgba(153,56,56,1)] dark:text-rose-50;
+    @apply dark:hover:border-[rgb(122,46,46)] dark:hover:bg-[rgb(122,46,46)] dark:hover:text-rose-50;
+  }
+
+  .btn-modern-success {
+    @apply border-emerald-500/75 bg-emerald-600/90 text-white shadow-sm;
+    @apply hover:border-emerald-600 hover:bg-emerald-600 active:bg-emerald-700;
+    @apply dark:border-emerald-600/75 dark:bg-emerald-700 dark:text-white dark:hover:bg-emerald-600;
+  }
+
+  .btn-modern-info {
+    @apply border-sky-500/75 bg-sky-600/90 text-white shadow-sm;
+    @apply hover:border-sky-600 hover:bg-sky-600 active:bg-sky-700;
+    @apply dark:border-[#4a6fa5] dark:bg-[#5a89b3] dark:text-white dark:hover:border-[#5f94c0] dark:hover:bg-[#6898c3];
+  }
+
+  /**
+   * ── Convención responsive (4 tiers) ──
+   * T1 mobile:     max-md:     (< 768px)
+   * T2 tablet:     md:max-lg:  (768–1023px)
+   * T3 tablet-lg:  lg:max-xl:  (1024–1279px)
+   * T4 desktop:    xl:         (≥ 1280px)
+   */
+
+  /** Botones táctiles grandes solo en T1 (móvil pequeño). */
+  @media (max-width: 767px) {
+    .btn-modern:hover {
+      transform: none;
+    }
+
+    .btn-modern,
+    .btn-modern.btn-modern-sm {
+      min-height: 2.75rem;
+    }
+
+    .btn-modern.btn-modern-xs {
+      min-height: 2.5rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  /** CTA a ancho completo solo en T1 */
+  .btn-mobile-cta {
+    @apply max-md:min-h-12 max-md:w-full max-md:rounded-xl max-md:justify-center max-md:gap-2 max-md:px-4 max-md:py-3 max-md:text-sm;
+  }
+
+  .btn-mobile-row {
+    @apply max-md:flex max-md:w-full max-md:gap-2 max-md:pt-2;
+  }
+
+  .btn-mobile-row > .btn-modern,
+  .btn-mobile-row > button.btn-modern {
+    @apply max-md:min-h-10 max-md:flex-1 max-md:justify-center max-md:rounded-xl;
+  }
+
+  .btn-mobile-stack {
+    @apply max-md:flex max-md:w-full max-md:flex-col-reverse max-md:gap-2.5;
+  }
+
+  .btn-mobile-stack > .btn-modern,
+  .btn-mobile-stack > button.btn-modern {
+    @apply max-md:w-full max-md:min-h-11 max-md:justify-center max-md:rounded-xl;
+  }
+
+  .btn-mobile-tabs {
+    @apply max-md:flex max-md:w-full max-md:flex-col max-md:gap-2;
+  }
+
+  .btn-mobile-tabs > button {
+    @apply max-md:min-h-11 max-md:w-full max-md:justify-center max-md:rounded-xl max-md:px-4 max-md:py-3 max-md:text-sm max-md:font-semibold;
+  }
+
+  /** Pestañas inline en tablet (T2+) */
+  @media (min-width: 768px) {
+    .btn-mobile-tabs--inline-md {
+      @apply flex-row flex-wrap gap-2;
+    }
+
+    .btn-mobile-tabs--inline-md > button {
+      @apply min-h-10 w-auto flex-none justify-center rounded-lg px-4 py-2 text-sm;
+    }
+  }
+
+  /** Toolbar: wrap en T2/T3 sin overflow horizontal de página */
+  .layout-toolbar {
+    @apply flex min-w-0 flex-wrap items-center gap-2 sm:gap-3;
+  }
+
+  .layout-toolbar--end {
+    @apply layout-toolbar justify-end;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .layout-toolbar--condensed {
+      @apply gap-2;
+    }
+  }
+
+  /**
+   * Master–detail: columna en T1; split en T2+ cuando hay selección.
+   * Uso: <div class="master-detail-root" data-has-selection={bool}>
+   */
+  .master-detail-root {
+    @apply flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden;
+  }
+
+  .master-detail-list,
+  .master-detail-detail {
+    @apply min-h-0 min-w-0;
+  }
+
+  /**
+   * Móvil + tablet vertical (&lt; lg): una pantalla a la vez (lista o detalle).
+   */
+  @media (max-width: 1023px) {
+    .master-detail-root[data-has-selection='true'] .master-detail-list {
+      @apply hidden;
+    }
+
+    .master-detail-root:not([data-has-selection='true']) .master-detail-detail {
+      @apply hidden;
+    }
+  }
+
+  /**
+   * Tablet horizontal y PC (lg+): lista + detalle en paralelo.
+   */
+  @media (min-width: 1024px) {
+    .master-detail-root[data-has-selection='true'] {
+      display: grid;
+      grid-template-columns: minmax(240px, 36%) minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .master-detail-root[data-has-selection='true'] .master-detail-list,
+    .master-detail-root[data-has-selection='true'] .master-detail-detail {
+      display: flex !important;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .master-detail-root[data-has-selection='true'] .master-detail-list {
+      border-right: 1px solid rgb(226 232 240);
+    }
+
+    .dark .master-detail-root[data-has-selection='true'] .master-detail-list {
+      border-right-color: rgb(30 41 59);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .master-detail-root[data-has-selection='true'] {
+      grid-template-columns: minmax(280px, 32%) minmax(0, 1fr);
+    }
+  }
+
+  /** Alumnos · listado en tablet vertical: el card ocupa alto útil y scrollea dentro. */
+  @media (max-width: 1023px) {
+    .alumnos-list-panel {
+      @apply flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden;
+    }
+
+    .alumnos-list-scroll {
+      @apply min-h-0 flex-1 overflow-y-auto overscroll-y-contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /**
+     * Alumnos · móvil/tablet vertical: scroll de página (búsqueda + filtros + listado).
+     * Evita quedar atrapado cuando los filtros están desplegados.
+     */
+    .app-layout-main:has(.alumnos-page-section) {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .alumnos-page-section[data-has-selection='false'] {
+      flex: 1 1 0%;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      scroll-padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .alumnos-page-section[data-has-selection='false'] .alumnos-root {
+      flex: 0 0 auto;
+      overflow: visible;
+      min-height: 0;
+    }
+
+    .alumnos-page-section[data-has-selection='false'] .alumnos-list-panel {
+      flex: 0 0 auto;
+      overflow: visible;
+      min-height: 0;
+    }
+
+    .alumnos-page-section[data-has-selection='false'] .alumnos-list-scroll {
+      flex: 0 0 auto;
+      overflow: visible;
+      min-height: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  /** Alumnos · ítems más compactos en tablet horizontal (T3) para ver más filas. */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .alumnos-list-item {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  /** Importaciones · tablet horizontal: una pantalla a ancho completo (el grid global deja el panel al 36%). */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .importaciones-root.master-detail-root {
+      display: flex !important;
+      flex-direction: column;
+      grid-template-columns: unset !important;
+    }
+
+    .importaciones-root.master-detail-root[data-has-selection='true'] {
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
+    .importaciones-root.master-detail-root[data-has-selection='true'] .master-detail-list {
+      display: none !important;
+    }
+
+    .importaciones-root.master-detail-root:not([data-has-selection='true']) .master-detail-detail {
+      display: none !important;
+    }
+
+    .importaciones-root.master-detail-root .master-detail-list,
+    .importaciones-root.master-detail-root .master-detail-detail {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      flex: 1 1 auto;
+      border-right: none !important;
+    }
+
+    /** Detalle del lote a pantalla completa: scroll interno en registros (evita tarjetas aplastadas). */
+    .importaciones-detail-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .importaciones-detail-panel .import-detalle-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden !important;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-meta {
+      flex: 0 0 auto;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-lista {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-lista > * {
+      flex-shrink: 0;
+    }
+
+    /** Historial: no capturar rueda/touch; scrollea el panel principal. */
+    .importaciones-historial-tabla {
+      overflow: visible !important;
+      overscroll-behavior: auto;
+      touch-action: pan-y;
+    }
+
+    /** Detalle del lote · cabecera y resumen más compactos para dejar aire a «Registros cargados». */
+    .importaciones-detail-panel .importaciones-detail-header {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.45rem 0.75rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-header > p,
+    .importaciones-detail-panel .importaciones-detail-header .min-w-0.flex-1 > p {
+      display: none;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-header .importaciones-detail-actions {
+      width: auto !important;
+      flex-wrap: nowrap;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-actions .btn-mobile-stack {
+      flex-direction: row !important;
+      width: auto !important;
+      gap: 0.35rem;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-actions .btn-mobile-cta {
+      width: auto !important;
+      min-height: 2rem;
+      padding: 0.35rem 0.65rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-scroll {
+      padding: 0.5rem 0.85rem;
+      gap: 0.5rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-meta {
+      padding: 0.6rem 0.75rem;
+      gap: 0.45rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-meta > :not([hidden]) ~ :not([hidden]) {
+      margin-top: 0.45rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-destino-movil {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.35rem 0.65rem;
+      padding: 0.45rem 0.6rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-destino-movil > div > p.mt-1 {
+      margin-top: 0.125rem;
+      font-size: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .importaciones-detail-panel .import-detalle-destino-movil > div > p:first-child {
+      font-size: 0.5625rem;
+      letter-spacing: 0.04em;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 0.35rem 0.5rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-stats > .col-span-2 {
+      grid-column: span 1 !important;
+      border-top: none !important;
+      padding-top: 0 !important;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-stats p.text-lg {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .importaciones-detail-panel .import-detalle-lote-stats .text-sm {
+      font-size: 0.6875rem;
+      line-height: 1.25;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros {
+      min-height: min(46vh, 20rem);
+      padding: 0.6rem 0.75rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros > .flex.shrink-0 {
+      gap: 0.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .importaciones-root.master-detail-root[data-has-selection='true'] {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) min(100%, 26.25rem) !important;
+    }
+  }
+
+  /**
+   * Importaciones · PC: panel «Detalle del lote» — layout y scroll (colores por tema abajo).
+   */
+  @media (min-width: 1280px) {
+    .importaciones-detail-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-header {
+      flex-shrink: 0;
+    }
+
+    .importaciones-detail-panel .import-detalle-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-lista {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-lista > * {
+      flex-shrink: 0;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-actions .btn-modern {
+      width: 100%;
+      justify-content: center;
+      min-height: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      box-shadow: none;
+    }
+
+    .importaciones-detail-panel .importaciones-detail-actions .btn-modern:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  /** Importaciones · PC · modo claro (referencia diseño). */
+  @media (min-width: 1280px) {
+    html:not(.dark) .importaciones-detail-panel {
+      background-color: #ffffff;
+      border-left-color: #e2e8f0;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-header {
+      background-color: #ffffff;
+      border-bottom-color: #e2e8f0;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .import-detalle-scroll {
+      background-color: #ffffff;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .import-detalle-lote-meta,
+    html:not(.dark) .importaciones-detail-panel .import-detalle-registros {
+      background-color: #ffffff;
+      border-color: #e2e8f0;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .btn-modern:not(.import-detalle-btn-confirmar):not(.import-detalle-btn-descartar) {
+      border-color: #cbd5e1;
+      background-color: #ffffff;
+      color: #334155;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .btn-modern:not(.import-detalle-btn-confirmar):not(.import-detalle-btn-descartar):not(:disabled):hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+      color: #0f172a;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-confirmar:not(:disabled) {
+      border-color: #10b981;
+      background-color: #ffffff;
+      color: #047857;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-confirmar:not(:disabled):hover {
+      border-color: #059669;
+      background-color: #ecfdf5;
+      color: #065f46;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-descartar:not(:disabled) {
+      border-color: #f43f5e;
+      background-color: #ffffff;
+      color: #e11d48;
+    }
+
+    html:not(.dark) .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-descartar:not(:disabled):hover {
+      border-color: #f43f5e;
+      background-color: #fff1f2;
+      color: #be123c;
+    }
+  }
+
+  /** Importaciones · PC · modo oscuro (misma paleta que el resto del módulo). */
+  @media (min-width: 1280px) {
+    .dark .importaciones-detail-panel {
+      background-color: #132a52;
+      border-left-color: #1e293b;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-header {
+      background-color: #132a52;
+      border-bottom-color: #1e293b;
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-scroll {
+      background-color: #132a52;
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-lote-meta,
+    .dark .importaciones-detail-panel .import-detalle-registros {
+      background-color: #132a52;
+      border-color: #334155;
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-destino-pc {
+      border-color: #334155;
+      background-color: rgba(10, 20, 36, 0.65);
+      color: #94a3b8;
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-destino-pc .import-detalle-destino-valor {
+      color: #f0f4f8;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .btn-modern:not(.import-detalle-btn-confirmar):not(.import-detalle-btn-descartar) {
+      border-color: #475569;
+      background-color: rgba(15, 26, 47, 0.9);
+      color: #e2e8f0;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .btn-modern:not(.import-detalle-btn-confirmar):not(.import-detalle-btn-descartar):not(:disabled):hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: #64748b;
+      color: #f8fafc;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-confirmar:not(:disabled) {
+      border-color: rgba(16, 185, 129, 0.65);
+      background-color: rgba(15, 26, 47, 0.9);
+      color: #6ee7b7;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-confirmar:not(:disabled):hover {
+      border-color: rgba(52, 211, 153, 0.75);
+      background-color: rgba(6, 78, 59, 0.35);
+      color: #a7f3d0;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-descartar:not(:disabled) {
+      border-color: rgba(244, 63, 94, 0.65);
+      background-color: rgba(15, 26, 47, 0.9);
+      color: #fda4af;
+    }
+
+    .dark .importaciones-detail-panel .importaciones-detail-actions .import-detalle-btn-descartar:not(:disabled):hover {
+      border-color: rgba(244, 63, 94, 0.75);
+      background-color: rgba(127, 29, 29, 0.35);
+      color: #fecdd3;
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-registros-lista .import-detalle-registro-card {
+      border-color: rgba(51, 65, 85, 0.9);
+      background-color: rgba(10, 20, 36, 0.85);
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-registros-lista .import-detalle-registro-card--invalid {
+      border-color: rgba(244, 63, 94, 0.35);
+      background-color: rgba(76, 5, 25, 0.25);
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-registro-card__head {
+      border-bottom-color: rgba(51, 65, 85, 0.7);
+      background-color: rgba(15, 23, 42, 0.55);
+    }
+
+    .dark .importaciones-detail-panel .import-detalle-registro-card--invalid .import-detalle-registro-card__head {
+      border-bottom-color: rgba(244, 63, 94, 0.25);
+      background-color: rgba(244, 63, 94, 0.08);
+    }
+  }
+
+  /** Alumnos · tablet horizontal: lista más angosta y detalle con ancho útil (evita grid global 36%). */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .alumnos-root.master-detail-root[data-has-selection='true'] {
+      display: grid !important;
+      grid-template-columns: minmax(11rem, 30%) minmax(0, 1fr) !important;
+      gap: 1rem;
+    }
+
+    .alumnos-root.master-detail-root[data-has-selection='true'] .master-detail-list,
+    .alumnos-root.master-detail-root[data-has-selection='true'] .master-detail-detail {
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .alumnos-root.master-detail-root[data-has-selection='true'] {
+      display: grid !important;
+      grid-template-columns: minmax(0, 20rem) minmax(0, 1fr) !important;
+    }
+  }
+
+  /** Scroll horizontal en tablas/planillas T2–T3 */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .scroll-region-tablet {
+      @apply min-h-0 min-w-0 max-w-full overflow-x-auto overflow-y-visible overscroll-x-contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+  }
+
+  /** Botón menú ☰: móvil + tablet vertical (&lt; lg). Tablet horizontal y PC usan sidebar fija. */
+  .app-menu-toggle {
+    @apply shrink-0 lg:hidden;
+  }
+
+  /** Header de página: segunda fila en T3 */
+  .app-page-header-actions {
+    @apply flex min-w-0 flex-wrap items-center gap-2;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .app-page-header--stack-lg {
+      @apply flex-col items-stretch gap-3;
+    }
+
+    .app-page-header--stack-lg .app-page-header-actions {
+      @apply w-full justify-start;
+    }
+  }
+
+  /**
+   * Zona de carga de archivo (PDF, Excel, etc.) — móvil legible en claro/oscuro.
+   * Escritorio: consumidor puede añadir lg: overrides locales si hace falta.
+   */
+  .app-file-upload-zone {
+    @apply relative flex w-full min-w-0 items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 transition-colors;
+    @apply min-h-[5rem] border-slate-300 bg-slate-50;
+    @apply hover:border-slate-400 hover:bg-slate-100;
+    @apply dark:border-slate-600 dark:bg-[#0d1b2e] dark:hover:border-slate-500 dark:hover:bg-[#132a52];
+  }
+
+  .app-file-upload-zone--filled {
+    @apply min-h-0 border-emerald-400 bg-emerald-50 py-3;
+    @apply hover:border-emerald-500 hover:bg-emerald-50;
+    @apply dark:border-emerald-500/50 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/10;
+  }
+
+  .app-file-upload-zone__label {
+    @apply flex min-h-[2.75rem] min-w-0 flex-1 cursor-pointer items-center gap-3;
+  }
+
+  .app-file-upload-zone__name {
+    @apply truncate text-sm font-medium text-emerald-800 dark:text-emerald-300;
+  }
+
+  .app-file-upload-zone__meta {
+    @apply text-xs text-slate-600 dark:text-slate-500;
+  }
+
+  .app-file-upload-zone__hint-title {
+    @apply text-sm text-slate-700 dark:text-slate-300;
+  }
+
+  .app-file-upload-zone__remove {
+    @apply ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200/80 hover:text-rose-600 dark:hover:bg-slate-800/60 dark:hover:text-rose-400;
+  }
+
+  /** Variante centrada (importaciones Excel). */
+  .app-file-upload-zone--stacked {
+    @apply min-h-0 flex-col items-center py-6 text-center sm:py-10;
+  }
+
+  /**
+   * Panel / inicio: no crear scroll interno en gráficos; la rueda/dedo debe mover la página.
+   */
+  .panel-chart-canvas-wrap {
+    min-width: 0;
+    min-height: 240px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .panel-chart-canvas-wrap--h-scroll {
+    touch-action: pan-x pan-y;
+  }
+
+  .panel-chart-canvas-wrap .recharts-responsive-container,
+  .panel-chart-canvas-wrap .recharts-wrapper,
+  .panel-chart-canvas-wrap .recharts-surface {
+    touch-action: inherit;
+  }
+
+  /**
+   * Justificaciones · móvil y tablet (<1280px): scroll de toda la sección;
+   * el formulario crece con su contenido (sin alturas fijas ni scroll anidado).
+   */
+  @media (max-width: 1279px) {
+    :root {
+      --app-mobile-nav-inset: min(
+        3.5rem,
+        max(env(safe-area-inset-bottom, 0px), var(--vv-bottom-inset, 0px))
+      );
+      --app-mobile-bottom-inset: var(--app-mobile-nav-inset);
+      --app-mobile-bottom-padding: 0.75rem;
+    }
+
+    .justif-movil-scroll-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0%;
+      min-height: 0;
+      min-width: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overflow-anchor: none;
+      padding-bottom: var(--app-mobile-bottom-padding);
+    }
+
+    .justif-layout-column {
+      flex: none !important;
+      min-height: auto !important;
+      overflow: visible !important;
+    }
+
+    .justif-movil-form-panel {
+      position: relative;
+      z-index: auto;
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      overflow: visible;
+      margin-bottom: 0.25rem;
+    }
+
+    .justif-movil-form-scroll {
+      flex: 0 0 auto;
+      min-height: 0;
+      overflow: visible;
+      padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .justif-movil-form-scroll .app-mobile-cta-footer {
+      padding-bottom: 0.5rem;
+    }
+
+    .justif-historial-panel {
+      margin-top: 1rem;
+    }
+  }
+
+  /**
+   * Justificaciones · escritorio (≥1280px): scroll en la columna (página), no dentro del formulario.
+   */
+  @media (min-width: 1280px) {
+    .justif-movil-scroll-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0%;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .justif-layout-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex: 1 1 0%;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .justif-movil-form-panel {
+      position: relative;
+      z-index: auto;
+      display: flex;
+      flex: 0 0 auto;
+      flex-direction: column;
+      width: 100%;
+      max-height: none;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .justif-movil-form-panel .justif-movil-form-scroll {
+      flex: 0 0 auto;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .justif-historial-panel {
+      flex: 0 0 auto;
+      min-height: 0;
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    /**
+     * Margen inferior bajo la barra del SO (visualViewport + safe-area, sin padding fijo global).
+     * Aplica a áreas con scroll y a barras/CTA pegadas abajo.
+     */
+    :root {
+      --app-mobile-nav-inset: min(
+        3.5rem,
+        max(env(safe-area-inset-bottom, 0px), var(--vv-bottom-inset, 0px))
+      );
+      --app-mobile-bottom-inset: var(--app-mobile-nav-inset);
+      --app-mobile-bottom-padding: 0.75rem;
+    }
+
+    .app-mobile-bottom-inset,
+    .app-mobile-cta-footer {
+      padding-bottom: max(0.75rem, var(--app-mobile-nav-inset)) !important;
+    }
+
+    .app-mobile-bottom-bar {
+      padding-bottom: max(1rem, var(--app-mobile-nav-inset)) !important;
+    }
+
+    /**
+     * Paginación: solo el espacio justo para botones de navegación del SO, sin inflar.
+     */
+    .app-mobile-pagination-footer {
+      padding-bottom: calc(
+        0.75rem + max(
+          0rem,
+          env(safe-area-inset-bottom, 0px),
+          var(--vv-bottom-inset, 0px)
+        )
+      ) !important;
+    }
+
+    .importaciones-historial-card {
+      overflow: visible !important;
+    }
+
+  }
+
+  /**
+   * Fase 0 — contenedor de scroll local para tablas/listas masivas.
+   * El desplazamiento queda dentro del bloque; no propaga ancho al layout padre.
+   */
+  .scroll-region {
+    @apply min-h-0 min-w-0 max-w-full overflow-auto overscroll-auto;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+    transform: translateZ(0);
+  }
+
+  /**
+   * Reportes · cierre: actas / habilitados en móvil y tablet vertical (<lg).
+   * Cuadro con altura acotada y scroll interno (misma idea que max-h en PC).
+   */
+  @media (max-width: 1023px) {
+    /* Barra lateral solo si hay overflow; vacío o poco contenido = sin barra ni altura fija. */
+    .reportes-lista-scroll-outer {
+      display: block;
+      min-height: 0;
+    }
+
+    .reportes-lista-scroll-outer.reportes-lista-scroll-outer--con-barra {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 14px;
+      align-items: stretch;
+      max-height: 18.75rem;
+      overflow: hidden;
+    }
+
+    .reportes-lista-scroll-outer:not(.reportes-lista-scroll-outer--con-barra) {
+      touch-action: auto;
+      overscroll-behavior: auto;
+    }
+
+    /* Vacío: no captura el dedo; la página scrollea debajo. */
+    .reportes-panel-lista-scroll--sin-overflow {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      overscroll-behavior: auto !important;
+      touch-action: auto !important;
+      -webkit-overflow-scrolling: auto;
+    }
+
+    /* Con ítems: caja fija como en PC; luego se decide si hace falta barra lateral. */
+    .reportes-panel-lista-scroll--con-lista {
+      max-height: 18.75rem;
+      padding: 0.25rem 0.125rem 0.25rem 0.25rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      pointer-events: auto;
+    }
+
+    .reportes-panel-lista-scroll--con-lista::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
+    }
+
+    .reportes-panel-lista-scroll .reportes-panel-lista-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .reportes-lista-scrollbar-rail {
+      display: flex;
+      flex-direction: column;
+      width: 14px;
+      min-height: 0;
+      max-height: 18.75rem;
+      overflow: hidden;
+      border-radius: 0 6px 6px 0;
+      border: 1px solid #e2e8f0;
+      border-left: none;
+      background: #f1f5f9;
+    }
+
+    .dark .reportes-lista-scrollbar-rail {
+      border-color: #2a4a7f;
+      background: #0d1b2e;
+    }
+
+    .reportes-lista-scrollbar-arrow {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 12px;
+      padding: 0;
+      color: #64748b;
+      background: #f1f5f9;
+      border: none;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .reportes-lista-scrollbar-arrow--down {
+      border-bottom: none;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .dark .reportes-lista-scrollbar-arrow {
+      color: #94a3b8;
+      background: #0d1b2e;
+      border-color: #2a4a7f;
+    }
+
+    .reportes-lista-scrollbar-track {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin: 1px 2px;
+      background: #f1f5f9;
+    }
+
+    .dark .reportes-lista-scrollbar-track {
+      background: #0d1b2e;
+    }
+
+    .reportes-lista-scrollbar-thumb {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 4px;
+      background-color: #cbd5e1;
+      border: 1px solid #f1f5f9;
+      pointer-events: none;
+    }
+
+    .dark .reportes-lista-scrollbar-thumb {
+      background-color: #2a4272;
+      border-color: #0d1b2e;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .reportes-lista-scroll-outer {
+      display: block;
+    }
+
+    .reportes-lista-scrollbar-rail {
+      display: none !important;
+    }
+  }
+
+  /**
+   * Reportes · responsive (<xl): caja fija + scroll interno en actas y habilitados.
+   */
+  @media (max-width: 1279px) {
+    .reportes-cierre-panel-scroll-body .reportes-panel-lista-scroll--con-lista {
+      max-height: 18.75rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      pointer-events: auto;
+    }
+
+    .reportes-cierre-panel--actas .reportes-cierre-panel-scroll-body {
+      overflow: hidden;
+    }
+
+    .reportes-panel-lista-scroll--barra-custom.reportes-panel-lista-scroll--con-lista {
+      padding: 0.25rem 0.125rem 0.25rem 0.25rem;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .reportes-panel-lista-scroll--barra-custom.reportes-panel-lista-scroll--con-lista::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
+    }
+
+    .reportes-lista-scroll-outer--con-barra:has(.reportes-panel-lista-scroll--barra-custom) {
+      overflow: hidden;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-panel-lista-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .reportes-cierre-panel-scroll-body .reportes-panel-lista-scroll--con-lista:not(.reportes-panel-lista-scroll--barra-custom) {
+      scrollbar-width: thin;
+      -ms-overflow-style: auto;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) {
+      display: block;
+      min-height: 0;
+    }
+
+    .reportes-lista-scroll-outer--con-barra:has(.reportes-panel-lista-scroll--barra-custom) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 14px;
+      align-items: stretch;
+      max-height: 18.75rem;
+      overflow: hidden;
+    }
+
+    .reportes-lista-scroll-outer:not(.reportes-lista-scroll-outer--con-barra):has(.reportes-panel-lista-scroll--barra-custom) {
+      touch-action: auto;
+      overscroll-behavior: auto;
+    }
+
+    .reportes-panel-lista-scroll--barra-custom.reportes-panel-lista-scroll--sin-overflow {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      overscroll-behavior: auto !important;
+      touch-action: auto !important;
+      -webkit-overflow-scrolling: auto;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-rail {
+      display: flex !important;
+      flex-direction: column;
+      width: 14px;
+      min-height: 0;
+      max-height: 18.75rem;
+      overflow: hidden;
+      border-radius: 0 6px 6px 0;
+      border: 1px solid #e2e8f0;
+      border-left: none;
+      background: #f1f5f9;
+    }
+
+    .dark .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-rail {
+      border-color: #2a4a7f;
+      background: #0d1b2e;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-arrow {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 12px;
+      padding: 0;
+      color: #64748b;
+      background: #f1f5f9;
+      border: none;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-arrow--down {
+      border-bottom: none;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .dark .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-arrow {
+      color: #94a3b8;
+      background: #0d1b2e;
+      border-color: #2a4a7f;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-track {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin: 1px 2px;
+      background: #f1f5f9;
+    }
+
+    .dark .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-track {
+      background: #0d1b2e;
+    }
+
+    .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-thumb {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 4px;
+      background-color: #cbd5e1;
+      border: 1px solid #f1f5f9;
+      pointer-events: none;
+    }
+
+    .dark .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) .reportes-lista-scrollbar-thumb {
+      background-color: #2a4272;
+      border-color: #0d1b2e;
+    }
+  }
+
+  /**
+   * Reportes · cierre en PC (xl+): cuatro cuadros en grilla 2×2 alineados por fila.
+   * Actas ↔ Flujo y Habilitados ↔ Checklist comparten altura; el scroll interno rellena el panel.
+   */
+  @media (min-width: 1280px) {
+    .reportes-cierre-cuadros-grid {
+      align-items: stretch;
+    }
+
+    .reportes-cierre-panel-scroll-body {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .reportes-cierre-panel-scroll-body .reportes-lista-scroll-outer {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .reportes-cierre-panel-scroll-body .reportes-panel-lista-scroll--con-lista {
+      flex: 1 1 auto;
+      height: 0;
+      max-height: none !important;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      -ms-overflow-style: auto;
+      padding: 0;
+    }
+
+    .reportes-cierre-panel-scroll-body .reportes-panel-lista-scroll--barra-custom.reportes-panel-lista-scroll--con-lista::-webkit-scrollbar {
+      width: 8px;
+      height: 0;
+      display: block;
+    }
+
+    .reportes-cierre-panel-scroll-body .reportes-lista-scroll-outer:has(.reportes-panel-lista-scroll--barra-custom) {
+      overflow: visible;
+    }
+
+    .reportes-cierre-panel-scroll-body .reportes-panel-lista-scroll--sin-overflow {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  /**
+   * Scroll interno desde md+ (tablet/desktop). En T1 el padre scrollea.
+   */
+  .scroll-region-at-lg {
+    @apply min-h-0 min-w-0 max-w-full max-md:overflow-visible max-md:max-h-none;
+  }
+  @media (min-width: 768px) {
+    .scroll-region-at-lg {
+      overflow: auto;
+      overscroll-behavior-x: contain;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  /**
+   * Planillas / tablas anchas T1–T3: deslizamiento horizontal táctil.
+   */
+  @media (max-width: 1279px) {
+    .scroll-region-table {
+      @apply min-h-0 min-w-0 max-w-full overflow-x-auto overflow-y-visible overscroll-x-contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+  }
+
+  /** Fila sidebar + área principal (flex horizontal del shell de app). */
+  .app-layout-row {
+    @apply flex h-full w-full min-w-0 overflow-hidden;
+  }
+
+  /** Columna principal de contenido dinámico (obliga contracción de hijos en flex). */
+  .app-layout-main {
+    @apply flex min-w-0 flex-1 flex-col h-full overflow-hidden;
+  }
+
+  @media (max-width: 1023px) {
+    .app-layout-main {
+      @apply bg-background-light dark:bg-background-dark;
+    }
+
+    .app-layout-main > header {
+      flex-shrink: 0;
+    }
+
+    .app-shell-viewport {
+      height: 100dvh;
+      max-height: 100dvh;
+    }
+
+    .app-scroll-content {
+      overscroll-behavior-y: auto;
+      touch-action: pan-y;
+      padding-bottom: 1rem !important;
+      scroll-padding-bottom: 1rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .dark .app-layout-main {
+      background-color: #0D1830;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .app-scroll-content,
+    .app-mobile-bottom-inset,
+    .app-mobile-bottom-bar {
+      padding-bottom: 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .scroll-region:not(.scroll-region-at-lg):not(.app-scroll-content) {
+      padding-bottom: var(--app-mobile-bottom-padding);
+    }
+
+    /* Académico: un poco más de aire al final para que no se corten las tarjetas inferiores. */
+    .academico-mobile-cards-inset {
+      padding-bottom: max(var(--app-mobile-bottom-inset), 1rem) !important;
+    }
+
+    /**
+     * Importaciones · detalle del lote: Android/Brave suelen tener safe-area-bottom = 0
+     * y la barra del navegador tapa el último registro. Más aire + scroll-padding al final.
+     */
+    .import-detalle-scroll {
+      padding-bottom: max(1rem, var(--app-mobile-bottom-inset)) !important;
+      scroll-padding-bottom: max(1rem, var(--app-mobile-bottom-inset));
+    }
+
+    /**
+     * Importaciones · detalle del lote en móvil: el scroll va en .import-detalle-scroll;
+     * «Registros cargados» debe crecer con su contenido (evita lista con altura 0 por flex anidado).
+     */
+    .importaciones-root.master-detail-root[data-has-selection='true'] {
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
+    .importaciones-root.master-detail-root[data-has-selection='true'] .importaciones-detail-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
+    .importaciones-detail-panel .import-detalle-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto !important;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros,
+    .importaciones-detail-panel .import-detalle-registros-body,
+    .importaciones-detail-panel .import-detalle-registros-lista {
+      flex: 0 0 auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    .importaciones-detail-panel .import-detalle-registros-lista > * {
+      flex-shrink: 0;
+    }
+  }
+
+  /**
+   * Velo del menú lateral en móvil: por encima del contenido (z-45), debajo del sidebar (z-50).
+   * Opacidad + blur para que bordes vivos de inputs no “traspasen” el fondo.
+   */
+  .app-sidebar-scrim {
+    @apply fixed inset-0 z-[45] cursor-pointer bg-slate-950/85 backdrop-blur-[4px] lg:hidden;
+  }
+
+  /** Contenido detrás del menú drawer (móvil + tablet vertical). */
+  @media (max-width: 1023px) {
+    html.mobile-sidebar-open .app-layout-main {
+      pointer-events: none;
+      user-select: none;
+    }
+
+    html.mobile-sidebar-open .app-layout-main :is(input, textarea, select, button[aria-haspopup='listbox']) {
+      border-color: rgb(51 65 85) !important;
+      box-shadow: none !important;
+      --tw-ring-shadow: 0 0 #0000 !important;
+      --tw-ring-offset-shadow: 0 0 #0000 !important;
+    }
+
+    html.mobile-sidebar-open .app-layout-main button[aria-haspopup='listbox'].border-primary {
+      border-color: rgb(51 65 85) !important;
+    }
+  }
+
+  /**
+   * Desplegables (AppSelect, autocompletados): el texto largo hace salto de línea
+   * en lugar de truncarse con ellipsis.
+   */
+  .app-dropdown-panel [role='option'] button,
+  .app-dropdown-panel [role='option'],
+  .app-dropdown-panel .app-dropdown-option-line {
+    @apply whitespace-normal break-words;
+  }
+
+  ul[role='listbox'] button {
+    @apply whitespace-normal break-words;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT CRÍTICO (sin @layer → prioridad de cascada superior
+   a las utilidades Tailwind que usan @layer utilities).
+   ═══════════════════════════════════════════════════════════════ */
+
+.app-shell-viewport {
+  height: 100dvh;
+}
+
+.app-layout-row {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.app-layout-main {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0%;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-layout-main > header {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1023px) {
+  .app-layout-main > header {
+    flex-shrink: 0;
+  }
+
+  .app-shell-viewport {
+    height: 100svh;
+    max-height: 100svh;
+  }
+
+  .app-scroll-content {
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+    padding-bottom: 1rem !important;
+    scroll-padding-bottom: 1rem;
+  }
+
+  .dark .app-layout-main {
+    background-color: #0D1830;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-scroll-content,
+  .app-mobile-bottom-inset,
+  .app-mobile-bottom-bar {
+    padding-bottom: 0;
+  }
+}
+
+:root {
+  font-family: 'Lexend', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  height: 100%;
+  min-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  background-color: #0d1f3c;
+}
+
+body {
+  height: 100%;
+  min-height: 100dvh;
+  max-width: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  margin: 0;
+  @apply bg-background-light dark:bg-background-dark text-slate-900 dark:text-[#f0f4f8] font-display;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.system-bg {
+  background-color: #0e2a47;
+  min-height: 100dvh;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.app-sidebar-shell {
+  border-right: 1px solid #1c2a50;
+  background: linear-gradient(180deg, #162347 0%, #131e3c 52%, #101a33 100%);
+  box-shadow: none;
+}
+
+/* Light mode sidebar */
+html:not(.dark) .app-sidebar-shell {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+/** Sidebar escritorio (lg+): plano, solo borde derecho (misma línea que el header). */
+@media (min-width: 1024px) {
+  .app-sidebar-shell {
+    box-shadow: none !important;
+    border-right-width: 1px;
+    border-right-style: solid;
+  }
+
+  .dark .app-sidebar-shell {
+    border-right-color: rgb(30 41 59); /* slate-800, alineado con border-b del header */
+  }
+
+  html:not(.dark) .app-sidebar-shell {
+    border-right-color: #cbd5e1 !important; /* slate-300, más legible sobre el shell claro */
+  }
+}
+
+/** Drawer móvil/tablet: elevación lateral; en escritorio sigue plano. */
+@media (max-width: 1023px) {
+  .app-sidebar-shell {
+    border-right: 1px solid #1c2a50;
+    box-shadow: 4px 0 24px rgba(2, 6, 23, 0.45);
+  }
+
+  html:not(.dark) .app-sidebar-shell {
+    border-right: 1px solid #e2e8f0 !important;
+    box-shadow: 4px 0 20px rgba(15, 23, 42, 0.1) !important;
+  }
+}
+
+/* Panel lateral derecho (Usuarios): mismo fondo que app-sidebar-shell */
+.usuario-detail-panel {
+  background: #ffffff;
+}
+
+.dark .usuario-detail-panel {
+  background: linear-gradient(180deg, #162347 0%, #131e3c 52%, #101a33 100%);
+}
+
+.dark .usuario-detail-panel .usuario-detail-panel-body {
+  background: transparent;
+  border-color: #1c2a50;
+}
+
+.dark .usuario-detail-panel .usuario-detail-panel-header {
+  background-color: rgba(19, 42, 82, 1);
+  border-color: #132a52;
+}
+
+.dark .usuario-detail-panel .usuario-detail-panel-footer {
+  background-color: rgba(19, 42, 82, 1);
+  border-color: #132a52;
+}
+
+html:not(.dark) .usuario-detail-panel .usuario-detail-panel-header {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+html:not(.dark) .usuario-detail-panel .usuario-detail-panel-body,
+html:not(.dark) .usuario-detail-panel .usuario-detail-panel-footer {
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.dark .usuario-detail-panel .usuario-detail-panel-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+html:not(.dark) .usuario-detail-panel .usuario-detail-panel-card {
+  background-color: #ffffff;
+}
+
+/**
+ * Auditoría · solo móvil (<1024px): scroll de página (filtros + listado); filtros sin scroll interno.
+ */
+@media (max-width: 1023px) {
+  .app-layout-main:has(.auditoria-page-section) {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .app-layout-main:has(.auditoria-page-section) > .auditoria-page-section {
+    flex: 1 1 0%;
+    min-height: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    gap: 0.5rem;
+    scroll-padding-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-filtros {
+    display: none;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-workspace {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detail-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detalle-volver-bar {
+    flex-shrink: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detalle-volver-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .auditoria-detalle-volver-bar {
+    padding-top: max(0.625rem, env(safe-area-inset-top, 0px));
+  }
+
+  .auditoria-filtros {
+    flex-shrink: 0;
+    overflow: visible;
+    padding: 0.5rem 0.625rem;
+    gap: 0.375rem;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-filtros > .flex-col {
+    gap: 0.375rem;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-filtros .flex-col.gap-3 {
+    gap: 0.375rem;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-workspace,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-panel,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-movil-panel,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-scroll--movil {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .auditoria-tabla-footer-movil {
+    flex-shrink: 0;
+  }
+
+  html:not(.dark) .auditoria-tabla-footer-movil {
+    background-color: #f8fafc;
+  }
+
+  .dark .auditoria-tabla-footer-movil {
+    background-color: #132a52;
+  }
+
+  .auditoria-tabla-ayuda--movil {
+    flex-shrink: 0;
+    background: inherit;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .auditoria-eventos-tarjetas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-content: start;
+    padding: 0.5rem 0.625rem 0.75rem;
+  }
+
+  .auditoria-evento-tarjeta-movil {
+    padding: 0.75rem;
+  }
+
+  .auditoria-evento-tarjeta-movil .material-symbols-outlined.text-\[24px\] {
+    font-size: 1.25rem;
+  }
+
+  .auditoria-evento-tarjeta-movil > div > div:first-child {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .auditoria-evento-tarjeta-movil > div > div:first-child .material-symbols-outlined {
+    font-size: 1.25rem;
+  }
+
+  .auditoria-evento-tarjeta-movil p.text-\[15px\] {
+    font-size: 0.875rem;
+  }
+
+  .auditoria-evento-tarjeta-movil .mt-2\.5 {
+    margin-top: 0.375rem;
+  }
+}
+
+/** Auditoría · móvil y tablet (<1280px): estilos del pie de paginación móvil. */
+@media (max-width: 1279px) {
+  html:not(.dark) .auditoria-tabla-footer-movil {
+    background-color: #f8fafc;
+  }
+
+  .dark .auditoria-tabla-footer-movil {
+    background-color: #132a52;
+  }
+}
+
+/** Auditoría · tablet horizontal (T3): tarjetas 2×2; detalle a pantalla completa al seleccionar. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .auditoria-page-section[data-has-selection='true'] {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] {
+    min-height: 0;
+    flex: 1 1 0%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .auditoria-filtros {
+    padding: 0.65rem 0.85rem;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .auditoria-filtros > .flex-col {
+    gap: 0.5rem;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-filtros {
+    display: none;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-workspace {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-workspace,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-panel,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-movil-panel,
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-scroll--movil {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-detail-panel {
+    display: none !important;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detail-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-tabla-panel {
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-tabla-scroll {
+    min-height: 0;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .auditoria-eventos-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    align-content: start;
+  }
+
+  .auditoria-eventos-tarjetas > .auditoria-eventos-estado-vacio {
+    grid-column: 1 / -1;
+  }
+
+  .auditoria-tabla-scroll .auditoria-eventos-estado-vacio {
+    flex: 1 1 auto;
+    align-self: stretch;
+  }
+
+  .auditoria-eventos-tarjetas li > button {
+    height: 100%;
+  }
+}
+
+/** Auditoría · PC (≥1280px): tabla arriba + detalle abajo, sin scroll de página externo. */
+@media (min-width: 1280px) {
+  .auditoria-workspace {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-tabla-panel {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .auditoria-tabla-panel:not(:has(.auditoria-tabla-scroll--con-datos)) {
+    flex: 1 1 auto;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-panel:has(.auditoria-tabla-scroll--movil),
+  .auditoria-page-section[data-has-selection='false'] .auditoria-tabla-panel:has(.auditoria-tabla-desktop) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='false'] .auditoria-workspace:has(.auditoria-tabla-scroll--movil),
+  .auditoria-page-section[data-has-selection='false'] .auditoria-workspace:has(.auditoria-tabla-desktop) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel:has(.auditoria-detail-panel--activo) .auditoria-tabla-body-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel .auditoria-detail-panel {
+    flex: 0 0 auto;
+    max-height: min(45vh, 28rem);
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detail-panel .auditoria-detail-body {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-x: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .auditoria-tabla-scroll {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .auditoria-tabla-scroll--movil {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .auditoria-tabla-eventos {
+    table-layout: fixed;
+  }
+
+  /* Proporciones al 100% del panel; recurso flexible; resultado con espacio para el badge. */
+  .auditoria-tabla-eventos .auditoria-col-fecha {
+    width: 11%;
+  }
+
+  .auditoria-tabla-eventos .auditoria-col-actor {
+    width: 17%;
+  }
+
+  .auditoria-tabla-eventos .auditoria-col-modulo {
+    width: 9%;
+  }
+
+  .auditoria-tabla-eventos .auditoria-col-accion {
+    width: 11%;
+  }
+
+  .auditoria-tabla-eventos .auditoria-col-recurso {
+    width: 32%;
+  }
+
+  .auditoria-tabla-eventos .auditoria-col-resultado {
+    width: 10%;
+  }
+
+  .auditoria-tabla-eventos-thead th:last-child,
+  .auditoria-tabla-eventos .auditoria-celda-resultado {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    text-align: center;
+  }
+
+  .auditoria-tabla-desktop {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .auditoria-tabla-head-fixed {
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .auditoria-tabla-body-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 0.15rem;
+    box-sizing: border-box;
+  }
+
+  html:not(.dark) .auditoria-tabla-eventos-thead th {
+    background-color: #f1f5f9;
+    color: #475569;
+  }
+
+  .dark .auditoria-tabla-eventos-thead th {
+    background-color: #0c1a3b;
+    color: #cbd5e1;
+  }
+
+  .auditoria-tabla-head-fixed {
+    border-bottom: 1px solid #1e293b;
+  }
+
+  html:not(.dark) .auditoria-tabla-head-fixed {
+    border-bottom-color: #e2e8f0;
+  }
+
+  .auditoria-tabla-eventos-body {
+    min-height: 14rem;
+  }
+
+  .auditoria-tabla-eventos tbody tr.auditoria-fila-evento {
+    height: auto;
+    min-height: 2.75rem;
+  }
+
+  .auditoria-tabla-eventos .auditoria-celda-truncada {
+    overflow: hidden;
+    max-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .auditoria-tabla-eventos .auditoria-celda-multilinea {
+    max-width: 0;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    vertical-align: top;
+  }
+
+  .auditoria-tabla-eventos .auditoria-celda-multilinea > span {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .auditoria-tabla-eventos .auditoria-celda-resultado {
+    max-width: 0;
+    overflow: visible;
+    vertical-align: top;
+  }
+
+  .auditoria-tabla-eventos .auditoria-badge-resultado {
+    line-height: 1.2;
+  }
+
+  .auditoria-tabla-footer {
+    flex-shrink: 0;
+    z-index: 2;
+    background: inherit;
+  }
+
+  html:not(.dark) .auditoria-tabla-footer {
+    background-color: #f8fafc;
+  }
+
+  .dark .auditoria-tabla-footer {
+    background-color: #132a52;
+  }
+
+}
+
+.auditoria-detail-panel {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.dark .auditoria-detail-panel {
+  background: linear-gradient(180deg, #162347 0%, #131e3c 52%, #101a33 100%);
+  border-color: #1c2a50;
+}
+
+.dark .auditoria-detail-panel .auditoria-detail-body {
+  color: #e7eef9;
+}
+
+.dark .auditoria-detail-panel .auditoria-detail-body strong {
+  color: #c9d7ed;
+  font-weight: 600;
+}
+
+@media (min-width: 1280px) {
+  .auditoria-detail-panel .auditoria-detail-body:has(.auditoria-datos-tecnicos) {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  .auditoria-detail-body:has(.auditoria-datos-tecnicos) .auditoria-datos-tecnicos {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .auditoria-detail-body:has(.auditoria-datos-tecnicos) .auditoria-datos-tecnicos > div {
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .auditoria-datos-tecnicos pre {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+/** Auditoría · móvil + tablet vertical + tablet horizontal: detalle a pantalla completa con scroll interno. */
+@media (max-width: 1279px) {
+  .auditoria-page-section[data-has-selection='true'] .auditoria-workspace {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-tabla-panel,
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detail-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .auditoria-page-section[data-has-selection='true'] .auditoria-detalle-volver-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    flex-shrink: 0;
+  }
+
+  .auditoria-detail-panel--activo {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    max-height: none;
+  }
+
+  .auditoria-detail-panel--activo .auditoria-detail-body {
+    min-height: 0;
+    flex: 1 1 auto;
+    max-height: none;
+  }
+
+  .auditoria-detail-panel--activo .auditoria-detail-body > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .auditoria-detalle-movil-stack {
+    position: relative;
+    z-index: 0;
+  }
+
+  .auditoria-detail-panel--activo .auditoria-datos-tecnicos {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+}
+
+.dark .auditoria-tabla-eventos thead {
+  background-color: #0c1a3b;
+  color: #cbd5e1;
+}
+
+.dark .auditoria-tabla-eventos tbody tr:nth-child(odd) {
+  background-color: #152d55;
+}
+
+.dark .auditoria-tabla-eventos tbody tr:nth-child(even) {
+  background-color: #1a3058;
+}
+
+.dark .auditoria-tabla-eventos tbody tr:hover {
+  background-color: #1e3a6b;
+}
+
+.dark .auditoria-tabla-eventos tbody tr.auditoria-fila-seleccionada {
+  background-color: #1e3a6b;
+}
+
+.dark .auditoria-tabla-eventos tbody td {
+  color: #e2e8f0;
+}
+
+.dark .auditoria-tabla-eventos tbody td.auditoria-celda-secundaria {
+  color: #94a3b8;
+}
+
+html:not(.dark) .auditoria-tabla-eventos thead {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+html:not(.dark) .auditoria-tabla-eventos tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+html:not(.dark) .auditoria-tabla-eventos tbody tr:nth-child(even) {
+  background-color: #f0f9ff;
+}
+
+html:not(.dark) .auditoria-tabla-eventos tbody tr:hover,
+html:not(.dark) .auditoria-tabla-eventos tbody tr.auditoria-fila-seleccionada {
+  background-color: #e0f2fe;
+}
+
+html:not(.dark) .auditoria-tabla-eventos tbody td {
+  color: #1e293b;
+}
+
+html:not(.dark) .auditoria-tabla-eventos tbody td.auditoria-celda-secundaria {
+  color: #64748b;
+}
+
+html:not(.dark) .auditoria-detail-panel .auditoria-detail-body {
+  color: #334155;
+}
+
+/** Usuarios · tablet vertical/móvil: panel detalle a altura completa, footer abajo. */
+@media (max-width: 1023px) {
+  .usuario-detail-panel.master-detail-detail {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .usuario-detail-panel .usuario-detail-panel-body {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+.sidebar-active-chip {
+  box-shadow: inset 0 0 0 1px rgba(165, 184, 239, 0.2);
+}
+
+.custom-checkbox:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+}
+
+/* Alcance carreras (Usuarios): círculo + punto interior como radio, no tilde de checkbox */
+input.scope-radio-dot[type='checkbox'] {
+  border-radius: 9999px;
+}
+
+input.scope-radio-dot[type='checkbox']:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR — modo oscuro
+   Aplica en toda la app cuando la clase .dark está activa.
+   El modo claro usa el scrollbar nativo del sistema (no se toca).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Firefox */
+.dark * {
+  scrollbar-width: thin;
+  scrollbar-color: #2a4a7f #0d1b2e;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.dark ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #0d1b2e;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #2a4272;
+  border-radius: 4px;
+  border: 1px solid #0d1b2e;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #3a5c9a;
+}
+.dark ::-webkit-scrollbar-corner {
+  background: #0d1b2e;
+}
+
+/* SCROLLBAR — modo claro */
+
+/* Firefox */
+html:not(.dark) * {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+html:not(.dark) ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+  border: 1px solid #f1f5f9;
+}
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+html:not(.dark) ::-webkit-scrollbar-corner {
+  background: #f1f5f9;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES  (html sin clase .dark)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Fondo general: quitar imagen, poner gris azulado suave ── */
+html:not(.dark) html,
+html:not(.dark) body,
+html:not(.dark) #root { background-color: #f5f7fa !important; background-image: none !important; color: #1e293b; }
+html:not(.dark) .system-bg { background-color: #f5f7fa !important; background-image: none !important; }
+@media (max-width: 1023px) {
+  html:not(.dark) .app-layout-main {
+    background-color: #f5f7fa;
+  }
+}
+html:not(.dark) .text-\[\#e7eef9\] { color: #1e293b !important; }
+
+/* Login: fondo azul institucional + SVG (no usar override claro de bg-slate-900) */
+.login-shell-bg {
+  background-color: #0e2a47;
+  background-image: url('/login-bg.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  overflow-y: auto;
+}
+html:not(.dark) .login-shell-bg {
+  background-color: #0e2a47 !important;
+}
+
+/* ── Sidebar: blanco limpio con texto oscuro ── */
+html:not(.dark) .app-sidebar-shell {
+  background: #ffffff !important;
+}
+html:not(.dark) .app-sidebar-shell .text-\[\#f0f4f8\],
+html:not(.dark) .app-sidebar-shell .text-\[\#e7eef9\],
+html:not(.dark) .app-sidebar-shell .text-\[\#eef3ff\] { color: #1e293b !important; }
+html:not(.dark) .app-sidebar-shell .text-\[\#95a8d9\],
+html:not(.dark) .app-sidebar-shell .text-\[\#b8c6eb\],
+html:not(.dark) .app-sidebar-shell .text-\[\#9caedc\],
+html:not(.dark) .app-sidebar-shell .text-\[\#9fb1cd\] { color: #64748b !important; }
+/* border divisor del header de usuario */
+html:not(.dark) .app-sidebar-shell .border-\[\#263663\] { border-color: #e2e8f0 !important; }
+/* items normales */
+html:not(.dark) .app-sidebar-shell .hover\:bg-\[\#273664\]:hover { background-color: #f1f5f9 !important; }
+html:not(.dark) .app-sidebar-shell .hover\:text-\[\#e8eeff\]:hover { color: #1e293b !important; }
+/* item activo */
+html:not(.dark) .app-sidebar-shell .bg-\[\#2a3868\] { background-color: #eff3ff !important; }
+html:not(.dark) .app-sidebar-shell .text-\[\#eef3ff\] { color: #3b5cc8 !important; }
+html:not(.dark) .app-sidebar-shell .bg-\[rgba\(164\,181\,236\,0\.28\)\] { background-color: rgba(59,92,200,0.12) !important; }
+html:not(.dark) .app-sidebar-shell .text-\[\#f1f5ff\] { color: #3b5cc8 !important; }
+/* marcador activo (barra lateral izquierda) */
+html:not(.dark) .app-sidebar-shell .bg-\[\#f7f9ff\] { background-color: #3b5cc8 !important; }
+/* iconos activos */
+html:not(.dark) .app-sidebar-shell .text-\[\#9caedc\] { color: #94a3b8 !important; }
+html:not(.dark) .app-sidebar-shell .group-hover\:text-\[\#e4ebff\]:hover { color: #1e293b !important; }
+
+/* ── Cards / superficies del contenido → blanco ── */
+html:not(.dark) .bg-\[\#132a52\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#172d58\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#162347\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#07101f\]  { background-color: #f8fafc !important; }
+html:not(.dark) .bg-\[\#091524\]  { background-color: #f1f5f9 !important; }
+html:not(.dark) .bg-\[\#0d1b2e\]  { background-color: #f5f7fa !important; }
+html:not(.dark) .bg-\[\#0b1427\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#0a1424\]  { background-color: #f8fafc !important; }
+html:not(.dark) .bg-\[\#0c1a3b\]  { background-color: #f8fafc !important; }
+html:not(.dark) .bg-\[\#0f1a2f\]  { background-color: #f8fafc !important; }
+html:not(.dark) .bg-\[\#040b1a\]  { background-color: #f5f7fa !important; }
+html:not(.dark) .bg-\[\#0e2a47\]  { background-color: #f5f7fa !important; }
+html:not(.dark) .bg-\[\#10264a\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#131e3c\]  { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#101a33\]  { background-color: #f8fafc !important; }
+
+/* opacidades */
+html:not(.dark) .bg-\[\#132a52\]\/90 { background-color: rgba(255,255,255,0.95) !important; }
+html:not(.dark) .bg-\[\#132a52\]\/80 { background-color: rgba(255,255,255,0.9) !important; }
+html:not(.dark) .bg-\[\#0b1a33\]\/70 { background-color: rgba(248,250,252,0.9) !important; }
+html:not(.dark) .bg-\[\#10264a\]\/60 { background-color: rgba(255,255,255,0.85) !important; }
+
+/* inputs / selects */
+html:not(.dark) .bg-slate-900 { background-color: #f8fafc !important; }
+html:not(.dark) .bg-slate-950 { background-color: #f1f5f9 !important; }
+
+/* ── Borders ── */
+html:not(.dark) .border-slate-700  { border-color: #cbd5e1 !important; }
+html:not(.dark) .border-\[\#263663\],
+html:not(.dark) .border-\[\#223c49\],
+html:not(.dark) .border-\[\#2d466d\],
+html:not(.dark) .border-\[\#2a4d78\]  { border-color: #e2e8f0 !important; }
+html:not(.dark) .border-\[\#2d466d\]\/70 { border-color: rgba(226,232,240,0.9) !important; }
+html:not(.dark) .divide-slate-800 > * + * { border-color: #e2e8f0 !important; }
+html:not(.dark) .divide-y > * + * { border-color: #e2e8f0; }
+
+/* ── Texto ── */
+html:not(.dark) .text-\[\#c9d7ed\],
+html:not(.dark) .text-\[\#d1dff5\],
+html:not(.dark) .text-\[\#f0f4f8\] { color: #1e293b !important; }
+html:not(.dark) .text-\[\#9fb3d4\],
+html:not(.dark) .text-\[\#9fb1cd\],
+html:not(.dark) .text-\[\#9caedc\] { color: #374151 !important; }
+html:not(.dark) .text-slate-200 { color: #1e293b !important; }
+html:not(.dark) .text-slate-300 { color: #334155 !important; }
+html:not(.dark) .text-slate-400 { color: #475569 !important; }
+html:not(.dark) .text-slate-500 { color: #6b7280 !important; }
+html:not(.dark) .text-slate-600 { color: #475569 !important; }
+
+/* ── Header bar (solo barras superiores del sistema; no login ni páginas legales) ── */
+html:not(.dark) header.flex-shrink-0 { box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+
+/* ── Tabla sticky ── */
+html:not(.dark) thead th         { background-color: #e8edf4 !important; }
+html:not(.dark) tfoot td         { background-color: #e8edf4 !important; }
+html:not(.dark) td.bg-inherit    { background-color: inherit !important; }
+
+/* Filas alternadas de tbody en planilla (excepto riesgo/inhabilitado) */
+html:not(.dark) tbody tr:nth-child(even):not(.planilla-fila-riesgo):not(.planilla-fila-inhabilitado) {
+  background-color: #f8fafc;
+}
+html:not(.dark) tbody tr:nth-child(odd):not(.planilla-fila-riesgo):not(.planilla-fila-inhabilitado) {
+  background-color: #ffffff;
+}
+
+/* ── Botones en contenido (modo claro: refuerzo sobre tarjetas blancas) ── */
+html:not(.dark) section .btn-modern-ghost:not(.btn-modern-edit),
+html:not(.dark) main .btn-modern-ghost:not(.btn-modern-edit) {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+html:not(.dark) section .btn-modern-ghost:not(.btn-modern-edit):hover,
+html:not(.dark) main .btn-modern-ghost:not(.btn-modern-edit):hover {
+  background-color: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+html:not(.dark) section .btn-modern-edit,
+html:not(.dark) main .btn-modern-edit {
+  background-color: #fffbeb !important;
+  border-color: #fcd34d !important;
+  color: #92400e !important;
+}
+html:not(.dark) section .btn-modern-edit:hover,
+html:not(.dark) main .btn-modern-edit:hover {
+  background-color: #fef3c7 !important;
+  border-color: #f59e0b !important;
+  color: #78350f !important;
+}
+html:not(.dark) section .btn-modern-danger,
+html:not(.dark) main .btn-modern-danger {
+  background-color: rgba(244, 63, 94, 0.88) !important;
+  border-color: rgba(251, 113, 133, 0.75) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) section .btn-modern-danger:hover,
+html:not(.dark) main .btn-modern-danger:hover {
+  background-color: rgba(225, 29, 72, 0.92) !important;
+  border-color: #f43f5e !important;
+}
+html:not(.dark) section .btn-modern-primary,
+html:not(.dark) main .btn-modern-primary {
+  background-color: rgba(55, 124, 215, 0.9) !important;
+  border-color: rgba(55, 124, 215, 0.9) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) section .btn-modern-primary:hover,
+html:not(.dark) main .btn-modern-primary:hover {
+  background-color: rgba(45, 110, 195, 0.95) !important;
+  border-color: rgba(45, 110, 195, 0.95) !important;
+}
+html:not(.dark) section .btn-modern-success,
+html:not(.dark) main .btn-modern-success {
+  background-color: rgba(5, 150, 105, 0.9) !important;
+  border-color: rgba(16, 185, 129, 0.75) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) section .btn-modern-success:hover,
+html:not(.dark) main .btn-modern-success:hover {
+  background-color: rgba(4, 120, 87, 0.95) !important;
+  border-color: #059669 !important;
+}
+html:not(.dark) section .btn-modern-info,
+html:not(.dark) main .btn-modern-info {
+  background-color: rgba(2, 132, 199, 0.9) !important;
+  border-color: rgba(14, 165, 233, 0.75) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) section .btn-modern-info:hover,
+html:not(.dark) main .btn-modern-info:hover {
+  background-color: rgba(3, 105, 161, 0.95) !important;
+  border-color: #0284c7 !important;
+}
+
+/* ── Dropdowns / autocomplete ── */
+html:not(.dark) .shadow-2xl { box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important; }
+
+/* ── Clases nombradas de Tailwind (bg-surface-dark, bg-surface-darker) ── */
+html:not(.dark) .bg-surface-dark    { background-color: #ffffff !important; }
+html:not(.dark) .bg-surface-darker  { background-color: #f8fafc !important; }
+
+/* ── bg-slate-800 y variantes de opacidad ── */
+html:not(.dark) .bg-slate-800       { background-color: #e2e8f0 !important; }
+html:not(.dark) .bg-slate-800\/40   { background-color: rgba(226,232,240,0.5) !important; }
+html:not(.dark) .bg-slate-800\/50   { background-color: rgba(226,232,240,0.6) !important; }
+
+/* ── bg-slate-900 variantes de opacidad (complemento a la override base) ── */
+html:not(.dark) .bg-slate-900\/35   { background-color: #ffffff !important; }
+html:not(.dark) .bg-slate-900\/40   { background-color: rgba(248,250,252,0.5) !important; }
+html:not(.dark) .bg-slate-900\/50   { background-color: rgba(248,250,252,0.6) !important; }
+html:not(.dark) .bg-slate-900\/55   { background-color: #f8fafc !important; }
+html:not(.dark) .hover\:bg-slate-900\/55:hover { background-color: #f1f5f9 !important; }
+
+/* ── bg-slate-700 variantes de opacidad ── */
+html:not(.dark) .bg-slate-700\/60   { background-color: rgba(226,232,240,0.8) !important; }
+
+/* ── Hover states de slate ── */
+html:not(.dark) .hover\:bg-slate-800:hover       { background-color: #f1f5f9 !important; }
+html:not(.dark) .hover\:bg-slate-800\/30:hover   { background-color: rgba(241,245,249,0.5) !important; }
+html:not(.dark) .hover\:bg-slate-800\/40:hover   { background-color: rgba(241,245,249,0.6) !important; }
+html:not(.dark) .hover\:bg-slate-800\/50:hover   { background-color: rgba(241,245,249,0.6) !important; }
+html:not(.dark) .hover\:bg-slate-900:hover       { background-color: #f1f5f9 !important; }
+
+/* ── Fila seleccionada / hover en AuditoríaPage ── */
+html:not(.dark) .bg-\[\#162b52\]               { background-color: #eff3ff !important; }
+html:not(.dark) .hover\:bg-\[\#162b52\]:hover  { background-color: #eff3ff !important; }
+
+/* ── Colores de texto Tailwind → versiones oscuras para fondo claro ── */
+html:not(.dark) .text-emerald-300 { color: #059669 !important; }
+html:not(.dark) .text-rose-300    { color: #e11d48 !important; }
+html:not(.dark) .text-amber-300   { color: #d97706 !important; }
+html:not(.dark) .text-blue-300    { color: #2563eb !important; }
+html:not(.dark) .text-blue-200    { color: #1d4ed8 !important; }
+html:not(.dark) .text-blue-400    { color: #2563eb !important; }
+html:not(.dark) .text-slate-600   { color: #475569 !important; }
+html:not(.dark) .text-purple-300  { color: #7c3aed !important; }
+
+/* ── Nuevos fondos Alumnos 360 ── */
+html:not(.dark) .bg-\[\#0e1e38\]       { background-color: #ffffff !important; }
+html:not(.dark) .bg-\[\#0b1827\]       { background-color: #f1f5f9 !important; }
+html:not(.dark) .bg-\[\#0e1e38\]\/40   { background-color: rgba(255,255,255,0.7) !important; }
+
+/* Selección activa en lista (border-l-2 border-blue-500 bg-blue-500/10) */
+html:not(.dark) .bg-blue-500\/10   { background-color: #eff6ff !important; }
+html:not(.dark) .bg-blue-500\/15   { background-color: #dbeafe !important; }
+html:not(.dark) .bg-blue-500\/20   { background-color: #dbeafe !important; }
+html:not(.dark) .bg-blue-500\/10.border-blue-500 { border-color: #3b82f6 !important; }
+
+/* Avatar círculo inactivo */
+html:not(.dark) .bg-slate-700      { background-color: #e2e8f0 !important; }
+html:not(.dark) .text-slate-300    { color: #334155 !important; }
+html:not(.dark) .bg-slate-700\/60  { background-color: rgba(226,232,240,0.9) !important; }
+
+/* Hover de filas/items en lista */
+html:not(.dark) .hover\:border-slate-600:hover  { border-color: #94a3b8 !important; }
+html:not(.dark) .hover\:bg-slate-800\/30:hover  { background-color: rgba(241,245,249,0.6) !important; }
+
+/* Barra progress track */
+html:not(.dark) .bg-slate-700  { background-color: #e2e8f0 !important; }
+
+/* Header sticky de tabla */
+html:not(.dark) .bg-\[\#0b1827\]  { background-color: #e8edf4 !important; }
+
+/* Badges de estado */
+html:not(.dark) .border-emerald-500\/30.bg-emerald-500\/10.text-emerald-200 { color: #065f46 !important; }
+html:not(.dark) .border-emerald-500\/30.bg-emerald-500\/10.text-emerald-300 { color: #059669 !important; }
+html:not(.dark) .border-blue-500\/30.bg-blue-500\/10.text-blue-300 { color: #2563eb !important; }
+html:not(.dark) .border-rose-500\/30.bg-rose-500\/10.text-rose-300 { color: #e11d48 !important; }
+
+/* Íconos en tarjetas de estadísticas */
+html:not(.dark) .bg-emerald-500\/10  { background-color: #d1fae5 !important; }
+html:not(.dark) .bg-amber-500\/10    { background-color: #fef3c7 !important; }
+html:not(.dark) .bg-purple-500\/10   { background-color: #ede9fe !important; }
+html:not(.dark) .text-emerald-400    { color: #059669 !important; }
+html:not(.dark) .text-amber-400      { color: #d97706 !important; }
+html:not(.dark) .text-purple-400     { color: #7c3aed !important; }
+html:not(.dark) .text-blue-400       { color: #2563eb !important; }
+
+/* Barras de colores de asistencia */
+html:not(.dark) .bg-emerald-400 { background-color: #10b981 !important; }
+html:not(.dark) .bg-amber-400   { background-color: #f59e0b !important; }
+html:not(.dark) .bg-rose-400    { background-color: #f43f5e !important; }
+
+/* Placeholder e input en búsqueda */
+html:not(.dark) .border-\[\#4a6fa5\]  { border-color: #3b82f6 !important; }
+html:not(.dark) .focus\:border-\[\#4a6fa5\]:focus { border-color: #3b82f6 !important; }
+html:not(.dark) .placeholder-slate-500::placeholder { color: #94a3b8 !important; }
+
+/* Cards de estadística dentro de la ficha */
+html:not(.dark) .bg-\[\#132a52\]\/40  { background-color: #f8fafc !important; }
+
+/* Hover de filas de tabla */
+html:not(.dark) .hover\:bg-slate-800\/20:hover { background-color: rgba(241,245,249,0.5) !important; }
+
+/* Borde divisor entre filas */
+html:not(.dark) .border-slate-800\/60 { border-color: rgba(203,213,225,0.8) !important; }
+
+/* Badges con fondo de opacidad */
+html:not(.dark) .text-emerald-100 { color: #065f46 !important; }
+html:not(.dark) .text-rose-100    { color: #9f1239 !important; }
+html:not(.dark) .text-amber-100   { color: #92400e !important; }
+
+/* ── Bordes: slate-800 más visible en tabla ── */
+html:not(.dark) .border-slate-800  { border-color: #cbd5e1 !important; }
+
+/* ── Hover de filas de tabla ── */
+html:not(.dark) .hover\:bg-slate-900\/60:hover { background-color: #f1f5f9 !important; }
+html:not(.dark) .hover\:bg-blue-900\/10:hover  { background-color: #eff6ff !important; }
+
+/* ── Fila "hoy" en planilla (columna) ── */
+html:not(.dark) .bg-blue-900\/40  { background-color: #dbeafe !important; }
+html:not(.dark) .bg-blue-900\/10  { background-color: #eff6ff !important; }
+
+/* ── Filas alternadas planilla ── */
+html:not(.dark) .bg-rose-900\/10  { background-color: #fff1f2 !important; }
+html:not(.dark) .bg-amber-900\/10 { background-color: #fffbeb !important; }
+
+/* ── Planilla: un solo color opaco por fila; barra fina oscura solo a la izquierda del # ── */
+:root {
+  --planilla-tabla-bg: #07101f;
+  --chip-riesgo-fila-bg: color-mix(in srgb, #ef8001 8%, var(--planilla-tabla-bg));
+  --chip-riesgo-marca: color-mix(in srgb, #ef8001 42%, var(--planilla-tabla-bg));
+  --chip-riesgo-texto: #ef8001;
+  --chip-inhabilitado-fila-bg: color-mix(in srgb, #fb7185 10%, var(--planilla-tabla-bg));
+  --chip-inhabilitado-marca: color-mix(in srgb, #f43f5e 42%, var(--planilla-tabla-bg));
+  --chip-inhabilitado-texto: #fda4af;
+}
+html:not(.dark) {
+  --planilla-tabla-bg: #f8fafc;
+  --chip-riesgo-fila-bg: #fde68a;
+  --chip-riesgo-marca: #f59e0b;
+  --chip-riesgo-texto: #c2410c;
+  --chip-inhabilitado-fila-bg: #fecdd3;
+  --chip-inhabilitado-marca: #f43f5e;
+  --chip-inhabilitado-texto: #e11d48;
+}
+
+.planilla-fila-regular-par > td {
+  background-color: #07101f !important;
+}
+.planilla-fila-regular-impar > td {
+  background-color: #091524 !important;
+}
+html:not(.dark) .planilla-fila-regular-par > td {
+  background-color: #ffffff !important;
+}
+html:not(.dark) .planilla-fila-regular-impar > td {
+  background-color: #f8fafc !important;
+}
+
+/* Toda la fila (incl. sticky): mismo fondo opaco que la columna # */
+tr.planilla-fila-riesgo,
+tr.planilla-fila-riesgo > td,
+tr.planilla-fila-riesgo > td.sticky {
+  background-color: var(--chip-riesgo-fila-bg) !important;
+  color: var(--chip-riesgo-texto);
+}
+tr.planilla-fila-inhabilitado,
+tr.planilla-fila-inhabilitado > td,
+tr.planilla-fila-inhabilitado > td.sticky {
+  background-color: var(--chip-inhabilitado-fila-bg) !important;
+  color: var(--chip-inhabilitado-texto);
+}
+
+/* Barra un poco más fina y oscura, solo a la izquierda del # */
+.planilla-fila-riesgo > td.planilla-celda-indice {
+  box-shadow: inset 3px 0 0 var(--chip-riesgo-marca);
+}
+.planilla-fila-inhabilitado > td.planilla-celda-indice {
+  box-shadow: inset 3px 0 0 var(--chip-inhabilitado-marca);
+}
+
+.planilla-fila-riesgo .planilla-celda-texto,
+.planilla-fila-riesgo .planilla-celda-metrica {
+  color: var(--chip-riesgo-texto) !important;
+}
+.planilla-fila-inhabilitado .planilla-celda-texto,
+.planilla-fila-inhabilitado .planilla-celda-metrica {
+  color: var(--chip-inhabilitado-texto) !important;
+}
+html:not(.dark) .planilla-fila-riesgo .planilla-celda-texto {
+  color: #1e293b !important;
+}
+html:not(.dark) .planilla-fila-inhabilitado .planilla-celda-texto {
+  color: #1e293b !important;
+}
+html:not(.dark) .planilla-fila-riesgo .planilla-celda-metrica {
+  color: var(--chip-riesgo-texto) !important;
+}
+html:not(.dark) .planilla-fila-inhabilitado .planilla-celda-metrica {
+  color: var(--chip-inhabilitado-texto) !important;
+}
+
+.planilla-fila-regular-par .planilla-celda-texto,
+.planilla-fila-regular-impar .planilla-celda-texto {
+  color: #e7eef9 !important;
+}
+.planilla-fila-regular-par .planilla-celda-metrica,
+.planilla-fila-regular-impar .planilla-celda-metrica {
+  color: #94a3b8 !important;
+}
+html:not(.dark) .planilla-fila-regular-par .planilla-celda-texto,
+html:not(.dark) .planilla-fila-regular-impar .planilla-celda-texto {
+  color: #1e293b !important;
+}
+html:not(.dark) .planilla-fila-regular-par .planilla-celda-metrica,
+html:not(.dark) .planilla-fila-regular-impar .planilla-celda-metrica {
+  color: #64748b !important;
+}
+
+/* Recharts: sin marco de foco al clicar (outline del wrapper/SVG) */
+.recharts-responsive-container,
+.recharts-responsive-container:focus,
+.recharts-responsive-container:focus-visible,
+.recharts-wrapper,
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-surface,
+.recharts-surface:focus,
+.recharts-surface:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.recharts-wrapper *:focus,
+.recharts-wrapper *:focus-visible {
+  outline: none !important;
+}

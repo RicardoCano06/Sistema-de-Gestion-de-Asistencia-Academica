@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "rootDir": "./",
+    "outDir": "./dist",
+    "strict": true,
+    "noImplicitAny": false,           // <--- ESTO EVITARÁ LOS ERRORES DE 'ANY' IMPLÍCITO
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@frontend/*": ["frontend/src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "database/**/*.ts",
+    "test_db.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
+  ]
+}

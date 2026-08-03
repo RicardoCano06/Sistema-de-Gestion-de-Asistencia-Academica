@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es-419">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/ung-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Gestion de Asistencias UNG</title>
+    <!-- Debe reflejar la misma lógica que frontend/src/utils/theme-storage.ts (readThemeFromStorage) -->
+    <script>
+      (function () {
+        try {
+          var THEME_GLOBAL_KEY = 'theme';
+          var rawUser = localStorage.getItem('currentUser');
+          var userId = '';
+          if (rawUser) {
+            try {
+              var u = JSON.parse(rawUser);
+              var id = u && (u.id || u.usuario || u.email);
+              userId = id != null && String(id).trim() !== '' ? String(id) : '';
+            } catch (e) {}
+          }
+          var scoped = userId ? localStorage.getItem(THEME_GLOBAL_KEY + '_' + userId) : null;
+          var global = localStorage.getItem(THEME_GLOBAL_KEY);
+          var v = scoped != null && scoped !== '' ? scoped : global;
+          if (v === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
