@@ -1,28 +1,16 @@
 import { supabase } from '../config/supabase';
+import { env } from '../config/env';
+import { sanitizeStoragePath } from '../utils/sanitize-storage-path';
 
 const ACTAS_BUCKET = 'actas';
 
-/**
- * Supabase Storage exige claves seguras (sin espacios, comas, acentos ni caracteres reservados).
- * Convierte el nombre legible del PDF a un slug ASCII compatible.
- */
-export function sanitizeStoragePath(fileName: string): string {
-    const base = fileName.replace(/\\/g, '/').split('/').pop() ?? 'documento.pdf';
-    const stem = base.replace(/\.pdf$/i, '');
-
-    const slug = stem
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-zA-Z0-9._-]+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '')
-        .toLowerCase();
-
-    return `${slug.slice(0, 200) || 'documento'}.pdf`;
-}
-
 /** Sube un PDF en memoria al bucket `actas` y devuelve la URL pública absoluta. */
 export async function subirActaPdf(buffer: Buffer, fileName: string): Promise<string> {
+    if (env.storageProvider === 'local') {
+        const { subirActaPdfLocal } = await import('./local-storage.service');
+        return subirActaPdfLocal(buffer, fileName);
+    }
+
     const ruta = sanitizeStoragePath(fileName);
 
     const { error } = await supabase.storage.from(ACTAS_BUCKET).upload(ruta, buffer, {

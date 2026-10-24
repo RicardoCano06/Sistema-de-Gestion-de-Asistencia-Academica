@@ -2,9 +2,21 @@ import { Pool } from 'pg';
 import { env } from './env';
 import { logger } from '../utils/logger';
 
+function sslParaConexion(connectionString: string) {
+    try {
+        const host = new URL(connectionString).hostname.toLowerCase();
+        if (host === 'localhost' || host === '127.0.0.1' || host === 'postgres' || host.endsWith('.internal')) {
+            return false;
+        }
+    } catch {
+        // Si no se puede parsear, se mantiene SSL por compatibilidad con Supabase.
+    }
+    return { rejectUnauthorized: false };
+}
+
 export const pool = new Pool({
     connectionString: env.SUPABASE_DB_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: sslParaConexion(env.SUPABASE_DB_URL),
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 5000,

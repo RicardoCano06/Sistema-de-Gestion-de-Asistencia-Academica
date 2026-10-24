@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+frontend/node_modules
+frontend/dist
+uploads
+tesis_backup.dump
+*.log

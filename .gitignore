@@ -24,3 +24,7 @@ test_db.ts
 # Build output (compilados no rastreados)
 dist/
 frontend/dist/
+
+# Archivos locales de Storage (demo offline)
+uploads/
+tesis_backup.dump

@@ -52,6 +52,17 @@ app.use(
     })
 );
 
+// Archivos locales (modo offline/demo): PDFs de actas y justificativos.
+app.use(
+    '/uploads',
+    express.static(path.resolve(process.cwd(), env.localUploadsDir), {
+        setHeaders: (res) => {
+            res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        },
+    })
+);
+
 app.use('/api', routes);
 
 app.get('/', (_req, res) => {

@@ -18,7 +18,13 @@ const envSchema = z.object({
     CORS_ORIGINS: z.string().optional(),
     /** true/1 o false/0. Sin definir: en producción no se expone detalle de errores 500 al cliente. */
     EXPOSE_ERROR_DETAILS: z.coerce.boolean().default(false),
-    DB_STATEMENT_TIMEOUT_MS: z.coerce.number().default(15000)
+    DB_STATEMENT_TIMEOUT_MS: z.coerce.number().default(15000),
+    /** 'supabase' (cloud) o 'local' (disco, modo offline/demo). */
+    STORAGE_PROVIDER: z.enum(['supabase', 'local']).default('supabase'),
+    /** Carpeta base para archivos en modo local (relativa a process.cwd() o absoluta). */
+    LOCAL_UPLOADS_DIR: z.string().default('./uploads'),
+    /** URL pública base para archivos locales (ej. http://localhost:4000). */
+    PUBLIC_BASE_URL: z.string().optional()
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -98,6 +104,9 @@ const {
     DB_STATEMENT_TIMEOUT_MS: _stmto,
     SUPABASE_URL: supabaseUrl,
     SUPABASE_SERVICE_ROLE_KEY: supabaseServiceRoleKey,
+    STORAGE_PROVIDER: storageProviderRaw,
+    LOCAL_UPLOADS_DIR: localUploadsDirRaw,
+    PUBLIC_BASE_URL: publicBaseUrlRaw,
     ...rest
 } = parsed.data;
 
@@ -110,4 +119,7 @@ export const env = {
     dbStatementTimeoutMs: parsed.data.DB_STATEMENT_TIMEOUT_MS,
     supabaseUrl,
     supabaseServiceRoleKey,
+    storageProvider: storageProviderRaw,
+    localUploadsDir: localUploadsDirRaw,
+    publicBaseUrl: publicBaseUrlRaw,
 };
